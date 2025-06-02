@@ -306,31 +306,3 @@ def api_get_amenities():
         return jsonify({ "success" : False, "error" : str(e) }), 500
 
 #endregion -------- BACKEND API ENDPOINTS --------
-
-
-#region -------- FRONTEND API ENDPOINTS --------
-
-@app.route("/setup")
-def setup():
-    return render_template("setup.html", config=config.get_layout_configuration())
-
-
-@app.route("/")
-def home():
-    # ------- START: CHECK IF THE DATABASE IS SETUP -------
-    #TODO: remove this check when splitting frontend and backend as dblayer doesn't exist in frontend
-    if not dblayer.allTablesExists():
-        return redirect(url_for("setup"))
-    # ------- END: CHECK IF THE DATABASE IS SETUP -------
-    return render_template("home.html", config=config.get_layout_configuration())
-
-
-@app.route("/list")
-def list():
-    return render_template("list.html", config=config.get_layout_configuration())
-
-@app.route("/create")
-def create():
-    return render_template("create.html", config=config.get_layout_configuration(), checkin=datetime.now().strftime('%Y-%m-%d'), checkout=(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'))
-
-#endregion -------- FRONTEND API ENDPOINTS --------
